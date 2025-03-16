@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0; url=https://ezequiel.is">
+    <title>My Website</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            flex: 1;
+        }
+    </style>
 </head>
+<body>
     <div class="sidebar">
         <h2>Categories</h2>
         <a href="index.html">Home</a>
@@ -16,6 +54,11 @@
         <a href="category3.html">//blogging</a>
         <a href="category3.html">//in-touch</a>
     </div>
-<body>
+
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>This is the main content area. The sidebar links will navigate to different pages.</p>
+    </div>
+
 </body>
 </html>
