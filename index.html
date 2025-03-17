@@ -41,9 +41,7 @@
 
     /* Buttons Container */
     .timeline-buttons {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      position: relative;
       height: 100%;
     }
 
@@ -53,8 +51,8 @@
       font-size: 1.2em;
       font-weight: bold; /* Helvetica Bold */
       padding-left: 30px; /* Space between line and text */
-      position: relative;
-      transition: all 2s ease-in-out; /* Slower animations (2s) for all properties */
+      position: absolute;
+      transition: top 0.5s ease-in-out; /* Smooth movement */
       margin: 8px 0; /* Increased spacing between buttons */
     }
 
@@ -89,10 +87,10 @@
   <!-- Timeline (Navigation Bar) -->
   <div class="timeline">
     <div class="timeline-buttons" id="timeline-buttons">
-      <a href="#me">me</a>
-      <a href="#branding">branding</a>
-      <a href="#lettering">lettering</a>
-      <a href="#in-touch">in-touch</a>
+      <a href="#me" style="top: 0;">me</a>
+      <a href="#branding" style="top: 60px;">branding</a>
+      <a href="#lettering" style="top: 120px;">lettering</a>
+      <a href="#in-touch" style="top: 180px;">in-touch</a>
     </div>
   </div>
 
@@ -113,35 +111,28 @@
   <script>
     const timelineButtons = document.getElementById('timeline-buttons');
     const buttons = Array.from(timelineButtons.querySelectorAll('a'));
+    const sections = Array.from(document.querySelectorAll('section'));
 
-    // Function to update button positions based on the active section
+    // Function to calculate the scroll progress and update button positions
     function updateTimelineButtons() {
-      const sections = Array.from(document.querySelectorAll('section'));
-      const activeSectionIndex = sections.findIndex(section => {
-        const rect = section.getBoundingClientRect();
-        return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+      const scrollY = window.scrollY; // Current scroll position
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight; // Total scrollable height
+
+      // Calculate the progress of the scroll (0 to 1)
+      const scrollProgress = scrollY / totalHeight;
+
+      // Calculate the new positions for the buttons
+      buttons.forEach((button, index) => {
+        const section = sections[index];
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+
+        // Calculate the button's position based on the section's position
+        const buttonPosition = (sectionTop + sectionHeight / 2 - scrollY) / window.innerHeight * (timelineButtons.offsetHeight - button.offsetHeight);
+
+        // Update the button's top position
+        button.style.top = `${buttonPosition}px`;
       });
-
-      // Clear the timeline buttons container
-      timelineButtons.innerHTML = '';
-
-      // Add buttons above the line
-      for (let i = 0; i <= activeSectionIndex; i++) {
-        timelineButtons.appendChild(buttons[i]);
-      }
-
-      // Add a spacer to push remaining buttons to the bottom
-      const spacer = document.createElement('div');
-      spacer.style.flexGrow = '1';
-      timelineButtons.appendChild(spacer);
-
-      // Add buttons below the line
-      for (let i = activeSectionIndex + 1; i < buttons.length; i++) {
-        timelineButtons.appendChild(buttons[i]);
-      }
-
-      // Trigger reflow to enable CSS transitions
-      void timelineButtons.offsetWidth;
     }
 
     // Smooth scrolling for navigation links
