@@ -8,8 +8,7 @@
     /* General Styles */
     body {
       margin: 0;
-      font-family: 'Bebas Neue', Arial, sans-serif;
-      font-weight: bold;
+      font-family: 'Helvetica', Arial, sans-serif;
       background-color: #ffdf00;
       color: #000;
     }
@@ -25,7 +24,7 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
     }
 
     /* Vertical Line */
@@ -39,14 +38,22 @@
       background-color: black;
     }
 
+    /* Buttons Container */
+    .timeline-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
     .timeline a {
       text-decoration: none;
       color: black;
       font-size: 1.2em;
-      margin: 10px 0;
       padding-left: 30px; /* Space between line and text */
       position: relative;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.5s ease-in-out, margin 0.5s ease-in-out;
+      margin: 8px 0; /* Increased spacing between buttons */
     }
 
     .timeline a:hover {
@@ -73,30 +80,32 @@
     }
 
     #me {
-      background-color: #ffdf00;
+      background-color: #ffcc00;
     }
 
     #work {
-      background-color: #ffdf00;
+      background-color: #ffbb00;
     }
 
     #contact {
-      background-color: #ffdf00;
+      background-color: #ffaa00;
     }
   </style>
 </head>
 <body>
   <!-- Timeline (Navigation Bar) -->
   <div class="timeline">
-    <a href="#home">/me</a>
-    <a href="#me">/branding</a>
-    <a href="#work">/lettering</a>
-    <a href="#contact">/in-touch</a>
+    <div class="timeline-buttons" id="timeline-buttons">
+      <a href="#home">Home</a>
+      <a href="#me">About Me</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
 
   <!-- Sections -->
   <section id="home">
-    <h1>DESIGN IS STORYTELLING</h1>
+    <h1>Welcome to My Portfolio</h1>
   </section>
   <section id="me">
     <h1>About Me</h1>
@@ -109,9 +118,42 @@
   </section>
 
   <script>
+    const timelineButtons = document.getElementById('timeline-buttons');
+    const buttons = Array.from(timelineButtons.querySelectorAll('a'));
+
+    // Function to update button positions based on the active section
+    function updateTimelineButtons() {
+      const sections = Array.from(document.querySelectorAll('section'));
+      const activeSectionIndex = sections.findIndex(section => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+      });
+
+      // Clear the timeline buttons container
+      timelineButtons.innerHTML = '';
+
+      // Add buttons above the line
+      for (let i = 0; i <= activeSectionIndex; i++) {
+        timelineButtons.appendChild(buttons[i]);
+      }
+
+      // Add a spacer to push remaining buttons to the bottom
+      const spacer = document.createElement('div');
+      spacer.style.flexGrow = '1';
+      timelineButtons.appendChild(spacer);
+
+      // Add buttons below the line
+      for (let i = activeSectionIndex + 1; i < buttons.length; i++) {
+        timelineButtons.appendChild(buttons[i]);
+      }
+
+      // Trigger reflow to enable CSS transitions
+      void timelineButtons.offsetWidth;
+    }
+
     // Smooth scrolling for navigation links
-    document.querySelectorAll('.timeline a').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    buttons.forEach(button => {
+      button.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
@@ -122,6 +164,7 @@
     window.addEventListener('hashchange', () => {
       const targetId = window.location.hash.substring(1);
       document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+      updateTimelineButtons();
     });
 
     // Scroll to the correct section on page load
@@ -130,7 +173,11 @@
       if (targetId) {
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
       }
+      updateTimelineButtons();
     });
+
+    // Update button positions on scroll
+    window.addEventListener('scroll', updateTimelineButtons);
   </script>
 </body>
 </html>
