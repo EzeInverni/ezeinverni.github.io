@@ -15,23 +15,47 @@
         body {
             background-color: #ffdf00;
             color: #111;
-            padding: 40px;
+            padding-left: 120px; /* Offset for vertical navbar */
         }
-        header {
+        .sidebar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 40px;
         }
         .logo {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: bold;
+            margin-bottom: 20px;
+        }
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         nav a {
             text-decoration: none;
             color: #111;
-            margin-left: 20px;
             font-size: 18px;
+            position: relative;
+            padding-left: 10px;
+        }
+        nav a::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: #111;
+            border-radius: 50%;
+        }
+        section {
+            padding: 60px 40px;
         }
         .grid {
             display: grid;
@@ -52,21 +76,17 @@
         .project h3 {
             margin-bottom: 10px;
         }
-        section {
-            padding: 60px 0;
-        }
     </style>
 </head>
 <body>
-    <header>
-    <!---    <div class="logo">Your Name</div> --->
+    <div class="sidebar">
+        <div class="logo">Your Name</div>
         <nav>
-            <a href="me">/me</a>
-            <a href="branding">/branding</a>
-            <a href="lettering">/lettering</a>
-            <a href="contact">/@</a>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
         </nav>
-    </header>
+    </div>
     
     <section id="work">
         <h2>Work</h2>
