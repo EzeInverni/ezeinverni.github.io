@@ -142,9 +142,6 @@
           buttonPosition = Math.max(buttonPosition, previousButtonBottom + 10); // 10px spacing
         }
 
-        // Ensure buttons don't go below the timeline
-        buttonPosition = Math.min(buttonPosition, timelineHeight - buttonHeight);
-
         // Update the button's top position
         button.style.top = `${buttonPosition}px`;
       });
