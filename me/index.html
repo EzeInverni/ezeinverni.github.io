@@ -5,66 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ezequiel Inverni</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #ffdf00;
-            margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
-            font-size: 20pt;
-            font-color: black;
+            color: #111;
+            padding: 40px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .logo {
+            font-size: 32px;
             font-weight: bold;
-        
-            
-             flex: 1;
         }
-        
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-
-                 background-color: #ffdf00;
-           
-            color: black;
-            padding: 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-        }
-
-        .sidebar a {
-    
-        display: block;
-            color: black;
+        nav a {
             text-decoration: none;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+            color: #111;
+            margin-left: 20px;
+            font-size: 18px;
         }
-
-        .sidebar a:hover {
-            text-decoration: underline;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
         }
-
-        .content {
-            margin-left: 260px;
+        .project {
+            background: white;
             padding: 20px;
-            flex: 1;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .project:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .project h3 {
+            margin-bottom: 10px;
+        }
+        section {
+            padding: 60px 0;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <a href="/me">/me</a>
-        <a href="/branding">/branding</a>
-        <a href="/making-covers">/making-covers</a>
-        <a href="/lettering">/lettering</a>
-        <a href="/in-touch">/in-touch</a>
-    </div>
-
-    <div class="content">
-        <h1></h1>
-        <p></p>
-    </div>
-
+    <header>
+        <div class="logo">Your Name</div>
+        <nav>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <section id="work">
+        <h2>Work</h2>
+        <div class="grid">
+            <div class="project">
+                <h3>Project 1</h3>
+                <p>Short description of the project.</p>
+            </div>
+            <div class="project">
+                <h3>Project 2</h3>
+                <p>Short description of the project.</p>
+            </div>
+            <div class="project">
+                <h3>Project 3</h3>
+                <p>Short description of the project.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <h2>About</h2>
+        <p>This is the about section. Write about yourself here.</p>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Get in touch via email or social media.</p>
+    </section>
 </body>
 </html>
