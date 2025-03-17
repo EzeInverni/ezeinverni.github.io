@@ -51,9 +51,10 @@
       text-decoration: none;
       color: black;
       font-size: 1.2em;
+      font-weight: bold; /* Helvetica Bold */
       padding-left: 30px; /* Space between line and text */
       position: relative;
-      transition: color 0.3s, transform 2s ease-in-out, margin 2s ease-in-out; /* Slower animations (2s) */
+      transition: all 2s ease-in-out; /* Slower animations (2s) for all properties */
       margin: 8px 0; /* Increased spacing between buttons */
     }
 
@@ -72,26 +73,15 @@
       align-items: center;
       justify-content: center;
       font-size: 2em;
+      font-weight: bold; /* Helvetica Bold */
       scroll-snap-align: start;
       position: relative;
       z-index: 0; /* Ensure sections are below the timeline */
     }
 
-    /* Section-specific styles */
-    #home {
-      background-color: #ffdf00;
-    }
-
-    #me {
-      background-color: #ffcc00;
-    }
-
-    #work {
-      background-color: #ffbb00;
-    }
-
-    #contact {
-      background-color: #ffaa00;
+    /* Remove section-specific background colors */
+    section {
+      background-color: #ffdf00; /* All sections have the same background color */
     }
   </style>
 </head>
@@ -99,25 +89,25 @@
   <!-- Timeline (Navigation Bar) -->
   <div class="timeline">
     <div class="timeline-buttons" id="timeline-buttons">
-      <a href="#home">Home</a>
-      <a href="#me">About Me</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
+      <a href="#me">me</a>
+      <a href="#branding">branding</a>
+      <a href="#lettering">lettering</a>
+      <a href="#in-touch">in-touch</a>
     </div>
   </div>
 
   <!-- Sections -->
-  <section id="home">
-    <h1>Welcome to My Portfolio</h1>
-  </section>
   <section id="me">
-    <h1>About Me</h1>
+    <h1>me</h1>
   </section>
-  <section id="work">
-    <h1>My Work</h1>
+  <section id="branding">
+    <h1>branding</h1>
   </section>
-  <section id="contact">
-    <h1>Contact Me</h1>
+  <section id="lettering">
+    <h1>lettering</h1>
+  </section>
+  <section id="in-touch">
+    <h1>in-touch</h1>
   </section>
 
   <script>
