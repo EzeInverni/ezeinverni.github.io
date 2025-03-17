@@ -128,7 +128,19 @@
         const sectionHeight = section.offsetHeight;
 
         // Calculate the button's position based on the section's position
-        const buttonPosition = (sectionTop + sectionHeight / 2 - scrollY) / window.innerHeight * (timelineButtons.offsetHeight - button.offsetHeight);
+        let buttonPosition = (sectionTop + sectionHeight / 2 - scrollY) / window.innerHeight * (timelineButtons.offsetHeight - button.offsetHeight);
+
+        // Constrain the button position to stay within the timeline bar
+        const timelineHeight = timelineButtons.offsetHeight;
+        const buttonHeight = button.offsetHeight;
+        buttonPosition = Math.max(0, Math.min(timelineHeight - buttonHeight, buttonPosition));
+
+        // Ensure buttons are stacked and don't overlap
+        if (index > 0) {
+          const previousButton = buttons[index - 1];
+          const previousButtonBottom = parseFloat(previousButton.style.top) + previousButton.offsetHeight;
+          buttonPosition = Math.max(buttonPosition, previousButtonBottom + 10); // 10px spacing
+        }
 
         // Update the button's top position
         button.style.top = `${buttonPosition}px`;
