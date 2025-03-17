@@ -1,41 +1,98 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ezequiel Inverni</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #ffdf00;
+            color: #111;
+            padding: 40px;
+        }
+        header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 20pt;
+            margin-bottom: 40px;
+        }
+        .logo {
+            font-size: 32px;
             font-weight: bold;
-            text-align: center;
         }
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        a {
-            color: black;
+        nav a {
             text-decoration: none;
+            color: #111;
+            margin-left: 20px;
+            font-size: 18px;
         }
-        a:hover {
-            text-decoration: underline;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .project {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .project:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .project h3 {
+            margin-bottom: 10px;
+        }
+        section {
+            padding: 60px 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="https://ezequiel.is/me">ezequiel.is/me</a>
-        <a href="https://ezequiel.is/lettering">ezequiel.is/lettering</a>
-        <a href="https://ezequiel.is/on-Fiverr">ezequiel.is/on-Fiverr</a>
-    </div>
+    <header>
+        <div class="logo">Your Name</div>
+        <nav>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <section id="work">
+        <h2>Work</h2>
+        <div class="grid">
+            <div class="project">
+                <h3>Project 1</h3>
+                <p>Short description of the project.</p>
+            </div>
+            <div class="project">
+                <h3>Project 2</h3>
+                <p>Short description of the project.</p>
+            </div>
+            <div class="project">
+                <h3>Project 3</h3>
+                <p>Short description of the project.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <h2>About</h2>
+        <p>This is the about section. Write about yourself here.</p>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Get in touch via email or social media.</p>
+    </section>
 </body>
 </html>
