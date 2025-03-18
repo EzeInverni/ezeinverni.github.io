@@ -79,6 +79,37 @@
       z-index: 0; /* Ensure sections are below the timeline */
     }
 
+    /* Horizontal Line Between Sections */
+    section:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: black; /* Color of the line */
+    }
+
+    /* Masking blocks for vertical scrolling */
+    .mask-top,
+    .mask-bottom {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 50px; /* Height of the timeline's top and bottom space */
+      background-color: #ffdf00; /* Match the background color */
+      z-index: 2; /* Ensure the masks are above the sections */
+      pointer-events: none; /* Allow clicks to pass through */
+    }
+
+    .mask-top {
+      top: 0; /* Mask at the top of the viewport */
+    }
+
+    .mask-bottom {
+      bottom: 0; /* Mask at the bottom of the viewport */
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .timeline {
@@ -108,6 +139,10 @@
       <a href="#in-touch" style="top: 180px;">in-touch</a>
     </div>
   </div>
+
+  <!-- Masking blocks for vertical scrolling -->
+  <div class="mask-top"></div>
+  <div class="mask-bottom"></div>
 
   <!-- Sections -->
   <section id="me">
@@ -141,14 +176,14 @@
         const rect = section.getBoundingClientRect();
         if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
           activeSectionIndex = index;
-          seenSections.add(index); // Mark this section as seen
+          seenSections.add(index); /* Mark this section as seen */
         }
       });
 
       // Calculate button positions
       const timelineHeight = timelineButtons.offsetHeight;
       const buttonHeight = buttons[0].offsetHeight;
-      const spacing = 10; // Spacing between buttons
+      const spacing = 10; /* Spacing between buttons */
 
       // Position already seen sections at the top
       let topPosition = 0;
@@ -175,7 +210,7 @@
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-        setTimeout(updateTimelineButtons, 500); // Update button positions after scrolling
+        setTimeout(updateTimelineButtons, 500); /* Update button positions after scrolling */
       });
     });
 
@@ -183,7 +218,7 @@
     window.addEventListener('hashchange', () => {
       const targetId = window.location.hash.substring(1);
       document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-      setTimeout(updateTimelineButtons, 500); // Update button positions after scrolling
+      setTimeout(updateTimelineButtons, 500); /* Update button positions after scrolling */
     });
 
     // Scroll to the correct section on page load
@@ -192,7 +227,7 @@
       if (targetId) {
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
       }
-      updateTimelineButtons(); // Update button positions on page load
+      updateTimelineButtons(); /* Update button positions on page load */
     });
 
     // Update button positions only when scrolling stops
@@ -200,8 +235,8 @@
     window.addEventListener('scroll', () => {
       window.clearTimeout(isScrolling);
       isScrolling = setTimeout(() => {
-        updateTimelineButtons(); // Update button positions after scrolling stops
-      }, 100); // Adjust the delay as needed
+        updateTimelineButtons(); /* Update button positions after scrolling stops */
+      }, 100); /* Adjust the delay as needed */
     });
   </script>
 </body>
