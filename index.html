@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ezequiel's Portfolio</title>
+  <title>Ezequiel Inverni</title>
   <style>
     /* General Styles */
     body {
@@ -52,16 +52,14 @@
       font-weight: bold; /* Helvetica Bold */
       padding-left: 30px; /* Space between line and text */
       position: absolute;
-      transition: top 0.5s ease-in-out, color 0.3s ease; /* Smooth movement and color transition */
+      transition: top 0.5s ease-in-out; /* Smooth movement */
       margin: 8px 0; /* Increased spacing between buttons */
+      white-space: nowrap; /* Prevent text from wrapping */
+      overflow: visible; /* Ensure full text is displayed */
     }
 
     .timeline a:hover {
-      color: #555;
-    }
-
-    .timeline a.active {
-      color: #ff0000; /* Highlight color for active section */
+      text-decoration: underline; /* Underline on hover */
     }
 
     /* Sections */
@@ -79,12 +77,6 @@
       scroll-snap-align: start;
       position: relative;
       z-index: 0; /* Ensure sections are below the timeline */
-      transition: background-color 0.5s ease; /* Smooth background transition */
-    }
-
-    /* Remove section-specific background colors */
-    section {
-      background-color: #ffdf00; /* All sections have the same background color */
     }
 
     /* Responsive Design */
@@ -136,48 +128,45 @@
     const buttons = Array.from(timelineButtons.querySelectorAll('a'));
     const sections = Array.from(document.querySelectorAll('section'));
 
-    // Function to calculate the scroll progress and update button positions
+    // Track which sections have been seen
+    let seenSections = new Set();
+
+    // Function to update button positions when a section is fully in view
     function updateTimelineButtons() {
       const scrollY = window.scrollY; // Current scroll position
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight; // Total scrollable height
 
-      // Calculate the progress of the scroll (0 to 1)
-      const scrollProgress = scrollY / totalHeight;
-
-      // Calculate the new positions for the buttons
-      buttons.forEach((button, index) => {
-        const section = sections[index];
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-
-        // Calculate the button's position based on the section's position
-        let buttonPosition = (sectionTop + sectionHeight / 2 - scrollY) / window.innerHeight * (timelineButtons.offsetHeight - button.offsetHeight);
-
-        // Constrain the button position to stay within the timeline bar
-        const timelineHeight = timelineButtons.offsetHeight;
-        const buttonHeight = button.offsetHeight;
-        buttonPosition = Math.max(0, Math.min(timelineHeight - buttonHeight, buttonPosition));
-
-        // Ensure buttons are stacked and don't overlap
-        if (index > 0) {
-          const previousButton = buttons[index - 1];
-          const previousButtonBottom = parseFloat(previousButton.style.top) + previousButton.offsetHeight;
-          buttonPosition = Math.max(buttonPosition, previousButtonBottom + 10); // 10px spacing
-        }
-
-        // Update the button's top position
-        button.style.top = `${buttonPosition}px`;
-      });
-
-      // Highlight the active section
+      // Find the active section
+      let activeSectionIndex = 0;
       sections.forEach((section, index) => {
         const rect = section.getBoundingClientRect();
         if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-          buttons[index].classList.add('active');
-        } else {
-          buttons[index].classList.remove('active');
+          activeSectionIndex = index;
+          seenSections.add(index); // Mark this section as seen
         }
       });
+
+      // Calculate button positions
+      const timelineHeight = timelineButtons.offsetHeight;
+      const buttonHeight = buttons[0].offsetHeight;
+      const spacing = 10; // Spacing between buttons
+
+      // Position already seen sections at the top
+      let topPosition = 0;
+      for (let i = 0; i < activeSectionIndex; i++) {
+        if (seenSections.has(i)) {
+          buttons[i].style.top = `${topPosition}px`;
+          topPosition += buttonHeight + spacing;
+        }
+      }
+
+      // Position the active section's button in the middle
+      buttons[activeSectionIndex].style.top = `${topPosition}px`;
+      topPosition += buttonHeight + spacing;
+
+      // Position upcoming sections at the bottom
+      for (let i = activeSectionIndex + 1; i < buttons.length; i++) {
+        buttons[i].style.top = `${timelineHeight - (buttons.length - i) * (buttonHeight + spacing)}px`;
+      }
     }
 
     // Smooth scrolling for navigation links
@@ -186,6 +175,7 @@
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+        setTimeout(updateTimelineButtons, 500); // Update button positions after scrolling
       });
     });
 
@@ -193,7 +183,7 @@
     window.addEventListener('hashchange', () => {
       const targetId = window.location.hash.substring(1);
       document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-      updateTimelineButtons();
+      setTimeout(updateTimelineButtons, 500); // Update button positions after scrolling
     });
 
     // Scroll to the correct section on page load
@@ -202,11 +192,17 @@
       if (targetId) {
         document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
       }
-      updateTimelineButtons();
+      updateTimelineButtons(); // Update button positions on page load
     });
 
-    // Update button positions on scroll
-    window.addEventListener('scroll', updateTimelineButtons);
+    // Update button positions only when scrolling stops
+    let isScrolling;
+    window.addEventListener('scroll', () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => {
+        updateTimelineButtons(); // Update button positions after scrolling stops
+      }, 100); // Adjust the delay as needed
+    });
   </script>
 </body>
 </html>
